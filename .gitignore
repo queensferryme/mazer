@@ -1,0 +1,4 @@
+# Linux platform
+bin/
+linux-build/
+.vscode/
