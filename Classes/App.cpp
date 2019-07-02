@@ -34,7 +34,7 @@ bool App::applicationDidFinishLaunching() {
     director->setOpenGLView(glview);
   }
   // set display FPS
-  director->setDisplayStats(true);
+  director->setDisplayStats(false);
   director->setAnimationInterval(1.0f / 60);
   // set frame size & resolution
   auto frameSize = glview->getFrameSize();
