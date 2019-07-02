@@ -21,7 +21,6 @@ bool StartMenu::init() {
   if (!Scene::init())
     return false;
   Size visibleSize = Director::getInstance()->getVisibleSize();
-  Vec2 origin = Director::getInstance()->getVisibleOrigin();
   // create a selective menu:
   // start, rank, setting, about, exit
   soundSetting.music->playBackgroundMusic("Honor.mp3");
@@ -39,7 +38,6 @@ bool StartMenu::init() {
   menuItems.pushBack(createMenuItemLabel(
       "Ranking", [](Ref *pSender) { ClickSound(soundSetting); }));
   menuItems.pushBack(createMenuItemLabel("Exit", [](Ref *pSender) {
-    ClickSound(soundSetting);
     Director::getInstance()->end();
   }));
   for (int i = 0; i < menuItems.size(); i++)
