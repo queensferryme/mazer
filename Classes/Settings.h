@@ -1,15 +1,16 @@
 #pragma once
+
+#include <string>
+
 #include "SimpleAudioEngine.h"
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
-#include <iostream>
-#include <string>
 
 using namespace cocos2d;
 using namespace cocos2d::ui;
-using namespace CocosDenshion;
+
 /**
-@brief   Start-up menu scene
+@brief   Settings scene
 */
 class Settings : public cocos2d::Scene {
 public:
@@ -20,22 +21,6 @@ public:
   static cocos2d::Scene *createScene() { return Settings::create(); }
 
   /**
-   @brief   Create a checkBox for each setting
-   @return  void
-   */
-  void createSettingCheckBox(
-      const std::string &text, const Vec2 &v2,
-      const cocos2d::ui::CheckBox::ccCheckBoxCallback &callback =
-          [](Ref *pSender, CheckBox::EventType type) {});
-
-
-  /**
-   @brief   Create a slider for value control
-   @return  void
-    
-   */
-  void createSlider(const Vec2 &v2);
-  /**
   @brief    Implementation of `static create()` function,
             used in createScene()
   @return   pointer to an object of current class
@@ -43,7 +28,22 @@ public:
   CREATE_FUNC(Settings);
 
   /**
-  @brief   Initialize current cocos2d::Scene object
+   @brief   Create a checkBox for each setting
+   @return  void
+   */
+  void createSettingCheckBox(
+      const std::string &, const Vec2 &,
+      const CheckBox::ccCheckBoxCallback & = [](Ref *pSender,
+                                                CheckBox::EventType type) {});
+
+  /**
+   @brief    Create a slider for value control
+   @return   void
+   */
+  void createSlider(const Vec2 &);
+
+  /**
+  @brief    Initialize current cocos2d::Scene object
   @return   status of creation:
             * true -> success
             * false -> failure

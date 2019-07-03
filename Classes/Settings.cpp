@@ -1,5 +1,6 @@
+#include <iostream>
+
 #include "Settings.h"
-#include "utils.h"
 
 using namespace cocos2d;
 using namespace cocos2d::ui;
@@ -7,17 +8,11 @@ using namespace CocosDenshion;
 
 void changeState(bool setting, CheckBox::EventType type) {
   switch (type) {
-  case cocos2d::ui::CheckBox::EventType::SELECTED:
-    std::cout << "on" << std::endl;
+  case ::CheckBox::EventType::SELECTED:
     setting = true;
-    // audio->resumeBackgroundMusic();
     break;
-  case cocos2d::ui::CheckBox::EventType::UNSELECTED:
-    std::cout << "off" << std::endl;
+  case ::CheckBox::EventType::UNSELECTED:
     setting = false;
-    // audio->pauseBackgroundMusic();
-    break;
-  default:
     break;
   }
 }
@@ -27,8 +22,8 @@ bool Settings::isSoundOn{false};
 
 void Settings::createSettingCheckBox(
     const std::string &text, const Vec2 &v2,
-    const cocos2d::ui::CheckBox::ccCheckBoxCallback &callback) {
-  auto checkbox = ui::CheckBox::create(
+    const CheckBox::ccCheckBoxCallback &callback) {
+  auto checkbox = CheckBox::create(
       "CheckBox_Press.png", "CheckBox_Press.png", "CheckBoxNode_Disable.png",
       "CheckBoxNode_Normal.png", "CheckBox_Normal.png");
   checkbox->addEventListener(callback);
@@ -46,9 +41,9 @@ void Settings::createSlider(const Vec2 &v2) {
   slider->loadProgressBarTexture("Slider_PressBar.png");
   slider->addTouchEventListener([&](Ref *sender, Widget::TouchEventType type) {
     switch (type) {
-    case ui::Widget::TouchEventType::BEGAN:
+    case Widget::TouchEventType::BEGAN:
       break;
-    case ui::Widget::TouchEventType::ENDED:
+    case Widget::TouchEventType::ENDED:
       std::cout << "slider moved" << std::endl;
       break;
     default:
@@ -68,7 +63,6 @@ bool Settings::init() {
   // set the background music and continuously play it.
   audio->playBackgroundMusic("Honor.mp3", true);
   // create a text menu item for Settings Scene
-
   createSettingCheckBox("Music", Vec2(100, 120),
                         [](Ref *pSender, CheckBox::EventType type) {
                           changeState(isMusicOn, type);
@@ -79,6 +73,5 @@ bool Settings::init() {
                         });
   createSlider(Vec2(200, 120));
   createSlider(Vec2(200, 160));
-
   return true;
 }

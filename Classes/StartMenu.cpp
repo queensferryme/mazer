@@ -21,17 +21,12 @@ bool StartMenu::init() {
   // create a selective menu:
   // start, rank, setting, about, exit
   Vector<MenuItem *> menuItems;
-<<<<<<< HEAD
-  menuItems.pushBack(createMenuItemLabel("Start"));
-  menuItems.pushBack(createMenuItemLabel("Settings", [](Ref *pSender) {
-    Director::getInstance()->replaceScene(Settings::createScene());
-  }));
-=======
   menuItems.pushBack(createMenuItemLabel("Start", [](Ref *pSender) {
     Director::getInstance()->replaceScene(GameMap::createScene());
   }));
-  menuItems.pushBack(createMenuItemLabel("Settings"));
->>>>>>> 56fa525... feat: map & basic movement
+  menuItems.pushBack(createMenuItemLabel("Settings", [](Ref *pSender) {
+    Director::getInstance()->replaceScene(Settings::createScene());
+  }));
   menuItems.pushBack(createMenuItemLabel("About"));
   menuItems.pushBack(createMenuItemLabel("Ranking"));
   menuItems.pushBack(createMenuItemLabel(
