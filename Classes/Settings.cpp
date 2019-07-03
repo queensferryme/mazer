@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "Settings.h"
 
 using namespace cocos2d;
@@ -7,15 +9,13 @@ using namespace CocosDenshion;
 void changeState(bool &setting, Music &musicAndSound,
                  CheckBox::EventType type) {
   switch (type) {
-  case cocos2d::ui::CheckBox::EventType::SELECTED:
-    std::cout << "on" << std::endl;
+  case ::CheckBox::EventType::SELECTED:
     setting = true;
     musicAndSound.changeSoundWorkState(musicAndSound.isSoundOn);
     musicAndSound.changeMusicWorkState(musicAndSound.isMusicOn);
     // audio->resumeBackgroundMusic();
     break;
-  case cocos2d::ui::CheckBox::EventType::UNSELECTED:
-    std::cout << "off" << std::endl;
+  case ::CheckBox::EventType::UNSELECTED:
     setting = false;
     musicAndSound.changeSoundWorkState(musicAndSound.isSoundOn);
     musicAndSound.changeMusicWorkState(musicAndSound.isMusicOn);

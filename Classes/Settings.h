@@ -9,9 +9,9 @@ extern Music soundSetting;
 
 using namespace cocos2d;
 using namespace cocos2d::ui;
-using namespace CocosDenshion;
+
 /**
-@brief   Start-up menu scene
+@brief   Settings scene
 */
 
 void ClickSound(Music &Sound);
@@ -30,6 +30,13 @@ public:
   static cocos2d::Scene *createScene() { return Settings::create(); }
 
   /**
+  @brief    Implementation of `static create()` function,
+            used in createScene()
+  @return   pointer to an object of current class
+  */
+  CREATE_FUNC(Settings);
+
+  /**
    @brief   Create a checkBox for each setting
    @return  void
    */
@@ -45,15 +52,9 @@ public:
    */
   void createSlider(float &storedValue, const Vec2 &v2,
                     const cocos2d::ui::Slider::ccSliderCallback &callback = {});
-  /**
-  @brief    Implementation of `static create()` function,
-            used in createScene()
-  @return   pointer to an object of current class
-  */
-  CREATE_FUNC(Settings);
 
   /**
-  @brief   Initialize current cocos2d::Scene object
+  @brief    Initialize current cocos2d::Scene object
   @return   status of creation:
             * true -> success
             * false -> failure
