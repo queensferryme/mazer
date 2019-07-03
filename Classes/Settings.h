@@ -1,9 +1,11 @@
 #pragma once
+#include "Music.h"
 #include "SimpleAudioEngine.h"
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
 #include <iostream>
 #include <string>
+extern Music soundSetting;
 
 using namespace cocos2d;
 using namespace cocos2d::ui;
@@ -11,6 +13,9 @@ using namespace CocosDenshion;
 /**
 @brief   Start-up menu scene
 */
+
+void ClickSound(const Music &Sound);
+
 class Settings : public cocos2d::Scene {
 public:
   /**
@@ -24,15 +29,14 @@ public:
    @return  void
    */
   void createSettingCheckBox(
-      const std::string &text, const Vec2 &v2,
+      const std::string &text, const Vec2 &v2, bool isSelected,
       const cocos2d::ui::CheckBox::ccCheckBoxCallback &callback =
           [](Ref *pSender, CheckBox::EventType type) {});
-
 
   /**
    @brief   Create a slider for value control
    @return  void
-    
+
    */
   void createSlider(const Vec2 &v2);
   /**
@@ -49,8 +53,4 @@ public:
             * false -> failure
   */
   virtual bool init();
-
-private:
-  static bool isMusicOn;
-  static bool isSoundOn;
 };

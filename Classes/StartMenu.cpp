@@ -1,8 +1,12 @@
 #include "StartMenu.h"
 #include "Settings.h"
-#include "utils.h"
 
 using namespace cocos2d;
+using namespace cocos2d::ui;
+using namespace CocosDenshion;
+
+
+Music soundSetting; // used for music settings
 
 /* create a text menu item for StartMenu Scene */
 MenuItem *createMenuItemLabel(const std::string &text,
@@ -21,13 +25,24 @@ bool StartMenu::init() {
   Vec2 origin = Director::getInstance()->getVisibleOrigin();
   // create a selective menu:
   // start, rank, setting, about, exit
+  soundSetting.music->playBackgroundMusic("Honor.mp3");
+
   Vector<MenuItem *> menuItems;
-  menuItems.pushBack(createMenuItemLabel("Start"));
-  menuItems.pushBack(createMenuItemLabel("Settings"));
-  menuItems.pushBack(createMenuItemLabel("About"));
-  menuItems.pushBack(createMenuItemLabel("Ranking"));
   menuItems.pushBack(createMenuItemLabel(
-      "Exit", [](Ref *pSender) { Director::getInstance()->end(); }));
+      "Start", [](Ref *pSender) { ClickSound(soundSetting); }));
+  menuItems.pushBack(createMenuItemLabel("Settings", [](Ref *pSender) {
+    auto settingsScene = Settings::create();
+    Director::getInstance()->pushScene(settingsScene);
+    ClickSound(soundSetting);
+  }));
+  menuItems.pushBack(createMenuItemLabel(
+      "About", [](Ref *pSender) { ClickSound(soundSetting); }));
+  menuItems.pushBack(createMenuItemLabel(
+      "Ranking", [](Ref *pSender) { ClickSound(soundSetting); }));
+  menuItems.pushBack(createMenuItemLabel("Exit", [](Ref *pSender) {
+    ClickSound(soundSetting);
+    Director::getInstance()->end();
+  }));
   for (int i = 0; i < menuItems.size(); i++)
     menuItems.at(i)->setPosition(Vec2(i * 60, 10));
   auto menu = Menu::createWithArray(menuItems);

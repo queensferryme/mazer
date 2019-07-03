@@ -51,12 +51,13 @@ list(APPEND GAME_SOURCE
      Classes/App.cpp
      Classes/StartMenu.cpp
      Classes/Settings.cpp
+     Classes/Music.cpp
      )
 list(APPEND GAME_HEADER
      Classes/App.h
      Classes/StartMenu.h
-     Classes/utils.h
      Classes/Settings.h
+      Classes/Music.h
      )
 
 if(ANDROID)
