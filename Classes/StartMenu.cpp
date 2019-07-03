@@ -1,4 +1,5 @@
 #include "StartMenu.h"
+#include "GameMap.h"
 #include "Settings.h"
 
 using namespace cocos2d;
@@ -24,10 +25,11 @@ bool StartMenu::init() {
   // create a selective menu:
   // start, rank, setting, about, exit
   soundSetting.music->playBackgroundMusic("Honor.mp3");
-
   Vector<MenuItem *> menuItems;
-  menuItems.pushBack(createMenuItemLabel(
-      "Start", [](Ref *pSender) { ClickSound(soundSetting); }));
+  menuItems.pushBack(createMenuItemLabel("Start", [](Ref *pSender) {
+    ClickSound(soundSetting);
+    Director::getInstance()->replaceScene(GameMap::createScene());
+  }));
   menuItems.pushBack(createMenuItemLabel("Settings", [](Ref *pSender) {
     auto settingsScene = Settings::create();
     Director::getInstance()->pushScene(settingsScene);
@@ -37,9 +39,8 @@ bool StartMenu::init() {
       "About", [](Ref *pSender) { ClickSound(soundSetting); }));
   menuItems.pushBack(createMenuItemLabel(
       "Ranking", [](Ref *pSender) { ClickSound(soundSetting); }));
-  menuItems.pushBack(createMenuItemLabel("Exit", [](Ref *pSender) {
-    Director::getInstance()->end();
-  }));
+  menuItems.pushBack(createMenuItemLabel(
+      "Exit", [](Ref *pSender) { Director::getInstance()->end(); }));
   for (int i = 0; i < menuItems.size(); i++)
     menuItems.at(i)->setPosition(Vec2(i * 60, 10));
   auto menu = Menu::createWithArray(menuItems);
