@@ -16,7 +16,7 @@ void Music::changeMusicWorkState(bool isMusicOn_) {
  */
 void Music::changeSoundWorkState(bool isSoundOn_) {
   isSoundOn = isSoundOn_;
-  isSoundOn ? sound->resumeAllEffects() : sound->pauseAllEffects();
+  isSoundOn ? sound->resumeAll() : sound->pauseAll();
 }
 /**
   @brief    change sound's work state
@@ -30,5 +30,3 @@ void Music::changeMusicVolume(float volume) { musicVolume = volume; }
  @return void
  */
 void Music::changeSoundVolume(float volume) { soundVolume = volume; }
-
-

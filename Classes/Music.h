@@ -1,10 +1,12 @@
 #pragma once
+#include "AudioEngine.h"
 #include "SimpleAudioEngine.h"
 #include "cocos2d.h"
 #include <string>
 
 using namespace CocosDenshion;
 using namespace cocos2d;
+using namespace cocos2d ::experimental;
 
 class Music {
 public:
@@ -41,5 +43,5 @@ public:
    @return void
    */
   SimpleAudioEngine *music = SimpleAudioEngine::getInstance();
-  SimpleAudioEngine *sound = SimpleAudioEngine::getInstance();
+  AudioEngine *sound;
 };

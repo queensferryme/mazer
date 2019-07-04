@@ -40,24 +40,24 @@ void Settings::createSettingCheckBox(
   this->addChild(checkbox);
   this->addChild(label);
 }
+/*ON_PERCENTAGE_CHANGED,
+        //@since v3.7
+        ON_SLIDEBALL_DOWN,
+        ON_SLIDEBALL_UP,
+        ON_SLIDEBALL_CANCEL */
 
-void Settings::createSlider(const Vec2 &v2) {
+void Settings::createSlider(
+    float &storedValue, const Vec2 &v2,
+    const cocos2d::ui::Slider::ccSliderCallback &callback) {
   auto slider = Slider::create();
+
   slider->loadBarTexture("Slider_Back.png"); // what the slider looks like
   slider->loadSlidBallTextures("SliderNode_Normal.png", "SliderNode_Press.png",
                                "SliderNode_Disable.png");
   slider->loadProgressBarTexture("Slider_PressBar.png");
-  slider->addTouchEventListener([&](Ref *sender, Widget::TouchEventType type) {
-    switch (type) {
-    case ui::Widget::TouchEventType::BEGAN:
-      break;
-    case ui::Widget::TouchEventType::ENDED:
-      std::cout << "slider moved" << std::endl;
-      break;
-    default:
-      break;
-    }
-  });
+  slider->setMaxPercent(100);
+  slider->setPercent(storedValue * 100);
+  slider->addEventListener(callback);
   slider->setPosition(v2);
   this->addChild(slider);
 }
@@ -78,6 +78,8 @@ bool Settings::init() {
   auto backMenu = Menu::create(backLabel, NULL);
   backMenu->setPosition(Vec2(50, 300));
   this->addChild(backMenu);
+  // soundSetting.sound->setEffectsVolume(0.0);
+  // soundSetting.sound->playEffect("click.wav", true, 1.0f, 1.0f, 1.0f);
 
   // set the background music and continuously play it.
 
@@ -93,13 +95,31 @@ bool Settings::init() {
                           changeState(soundSetting.isSoundOn, soundSetting,
                                       type);
                         });
-  createSlider(Vec2(200, 120));
-  createSlider(Vec2(200, 160));
+  createSlider(
+      soundSetting.musicVolume, Vec2(200, 120),
+      [&](Ref *pSender, Slider::EventType type) {
+        auto item = (Slider *)(pSender);
+        soundSetting.music->setBackgroundMusicVolume(item->getPercent() /
+                                                     100.0f);
+        soundSetting.musicVolume =
+            SimpleAudioEngine::getInstance()->getBackgroundMusicVolume();
+      });
+  createSlider(soundSetting.soundVolume, Vec2(200, 160),
+               [&](Ref *pSender, Slider::EventType type) {
+                 auto item = (Slider *)(pSender);
+                 SimpleAudioEngine::getInstance()->setEffectsVolume(
+                     item->getPercent() / 100.0f);
+                 soundSetting.soundVolume =
+                     SimpleAudioEngine::getInstance()->getEffectsVolume();
+               });
 
   return true;
 }
 
-void ClickSound(const Music &Sound) {
-  if (Sound.isSoundOn)
-    soundSetting.sound->playEffect("click.wav", false, 1.0f, 1.0f, 1.0f);
+void ClickSound(Music &Sound) {
+
+  if (Sound.isSoundOn) {
+    SimpleAudioEngine::getInstance()->setEffectsVolume(Sound.soundVolume);
+    Sound.sound->play2d("click.wav", false, Sound.soundVolume);
+  }
 }

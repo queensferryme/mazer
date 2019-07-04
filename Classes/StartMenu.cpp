@@ -5,7 +5,6 @@ using namespace cocos2d;
 using namespace cocos2d::ui;
 using namespace CocosDenshion;
 
-
 Music soundSetting; // used for music settings
 
 /* create a text menu item for StartMenu Scene */

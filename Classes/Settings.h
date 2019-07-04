@@ -14,7 +14,12 @@ using namespace CocosDenshion;
 @brief   Start-up menu scene
 */
 
-void ClickSound(const Music &Sound);
+void ClickSound(Music &Sound);
+/**
+ * @brief  make sound once you click a label
+ *
+ * @return void
+ */
 
 class Settings : public cocos2d::Scene {
 public:
@@ -38,7 +43,8 @@ public:
    @return  void
 
    */
-  void createSlider(const Vec2 &v2);
+  void createSlider(float &storedValue, const Vec2 &v2,
+                    const cocos2d::ui::Slider::ccSliderCallback &callback = {});
   /**
   @brief    Implementation of `static create()` function,
             used in createScene()

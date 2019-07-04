@@ -2,8 +2,6 @@
 
 #include "cocos2d.h"
 
-
-
 /**
 @brief   Start-up menu scene
 */
