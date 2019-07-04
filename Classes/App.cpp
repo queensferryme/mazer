@@ -1,6 +1,6 @@
 #include "App.h"
+#include "SimpleAudioEngine.h"
 #include "StartMenu.h"
-#include "audio/include/SimpleAudioEngine.h"
 
 using namespace CocosDenshion;
 using namespace cocos2d;

@@ -2,6 +2,7 @@
 
 #include <string>
 
+#include "Config.h"
 #include "SimpleAudioEngine.h"
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
@@ -28,19 +29,20 @@ public:
   CREATE_FUNC(Settings);
 
   /**
-   @brief   Create a checkBox for each setting
+   @brief   Create a checkBox for boolean setting
    @return  void
    */
   void createSettingCheckBox(
-      const std::string &, const Vec2 &,
-      const CheckBox::ccCheckBoxCallback & = [](Ref *pSender,
-                                                CheckBox::EventType type) {});
+      const std::string &text, const Vec2 &v2, bool isSelected,
+      const CheckBox::ccCheckBoxCallback &callback =
+          [](Ref *pSender, CheckBox::EventType type) {});
 
   /**
-   @brief    Create a slider for value control
-   @return   void
-   */
-  void createSlider(const Vec2 &);
+  @brief    Create a slider for value control
+  @return   void
+  */
+  void createSlider(float &storedValue, const Vec2 &v2,
+                    const cocos2d::ui::Slider::ccSliderCallback &callback = {});
 
   /**
   @brief    Initialize current cocos2d::Scene object
@@ -49,8 +51,4 @@ public:
             * false -> failure
   */
   virtual bool init();
-
-private:
-  static bool isMusicOn;
-  static bool isSoundOn;
 };
