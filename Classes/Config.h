@@ -45,3 +45,6 @@ public:
   */
   static void setSoundVolume(float volume);
 };
+
+/* helper functions, make a click sound */
+void makeClickSound();

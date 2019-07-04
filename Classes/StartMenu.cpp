@@ -1,13 +1,11 @@
 #include "StartMenu.h"
-#include "GameMap.h"
 #include "Config.h"
+#include "GameMap.h"
 #include "Settings.h"
 
 using namespace CocosDenshion;
 using namespace cocos2d;
 using namespace cocos2d::ui;
-
-extern void makeClickSound();
 
 /* create a text menu item for StartMenu Scene */
 MenuItem *createMenuItemLabel(
@@ -35,12 +33,14 @@ bool StartMenu::init() {
     makeClickSound();
     Director::getInstance()->pushScene(Settings::create());
   }));
-  menuItems.pushBack(createMenuItemLabel(
-      "About", [](Ref *pSender) { makeClickSound(); }));
-  menuItems.pushBack(createMenuItemLabel(
-      "Ranking", [](Ref *pSender) { makeClickSound(); }));
-  menuItems.pushBack(createMenuItemLabel(
-      "Exit", [](Ref *pSender) { Director::getInstance()->end(); }));
+  menuItems.pushBack(
+      createMenuItemLabel("About", [](Ref *pSender) { makeClickSound(); }));
+  menuItems.pushBack(
+      createMenuItemLabel("Ranking", [](Ref *pSender) { makeClickSound(); }));
+  menuItems.pushBack(createMenuItemLabel("Exit", [](Ref *pSender) {
+    makeClickSound();
+    Director::getInstance()->end();
+  }));
   for (int i = 0; i < menuItems.size(); i++)
     menuItems.at(i)->setPosition(Vec2(i * 60, 10));
   auto menu = Menu::createWithArray(menuItems);

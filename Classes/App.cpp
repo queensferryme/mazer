@@ -17,7 +17,7 @@ App::~App() { SimpleAudioEngine::end(); }
 /* initialize OpenGl context attributes */
 void App::initGLContextAttrs() {
   // OpenGL context attributes:
-  // red,green,blue,alpha,depth,stencil,multisamplesCount
+  // red, green, blue, alpha, depth, stencil, multisamplesCount
   GLContextAttrs glContextAttrs = {8, 8, 8, 8, 24, 8, 0};
   GLView::setGLContextAttrs(glContextAttrs);
 }

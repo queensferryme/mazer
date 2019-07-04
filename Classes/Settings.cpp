@@ -7,8 +7,6 @@ using namespace CocosDenshion;
 using namespace cocos2d;
 using namespace cocos2d::ui;
 
-extern void makeClickSound();
-
 /* helper function which toggle checkbox when clicked */
 void toggleCheckBoxState(CheckBox::EventType type) {
   switch (type) {
@@ -30,7 +28,7 @@ void Settings::createSettingCheckBox(
   auto checkbox = CheckBox::create(
       "CheckBox_Press.png", "CheckBox_Press.png", "CheckBoxNode_Disable.png",
       "CheckBoxNode_Normal.png", "CheckBox_Normal.png");
-  checkbox->setSelectedState(isSelected);
+  checkbox->setSelected(isSelected);
   checkbox->addEventListener(callback);
   // create descriptive label
   auto label = Label::createWithTTF(text, "fonts/Marker Felt.ttf", 15);

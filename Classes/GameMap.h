@@ -10,7 +10,9 @@ using namespace cocos2d;
 class GameMap : public Scene {
 private:
   Sprite *player;
-  TMXTiledMap *map;
+  // use namespace prefix cocos2d, in order
+  // to avoid conflicts with experimental::TXMTiledMap
+  cocos2d::TMXTiledMap *map;
   Vec2 playerDirection;
 
 public:
@@ -42,7 +44,7 @@ public:
   @return   void
   */
   virtual void update(float) override;
-  
+
   /**
   @brief    Set view point center to current player
   @return   void

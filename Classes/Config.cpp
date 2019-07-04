@@ -10,10 +10,10 @@ bool Config::isSoundOn = true;
 float Config::musicVolume = .5;
 float Config::soundVolume = .5;
 
-/* helper functions */
+/* helper functions, make a click sound */
 void makeClickSound() {
   if (Config::isSoundOn) {
-    SimpleAudioEngine::getInstance()->setEffectsVolume(Config::soundVolume);
+    Config::music->setEffectsVolume(Config::soundVolume);
     Config::sound->play2d("click.wav", false, Config::soundVolume);
   }
 }
