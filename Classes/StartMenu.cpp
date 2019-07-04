@@ -1,6 +1,7 @@
 #include "StartMenu.h"
 #include "Config.h"
 #include "GameMap.h"
+#include "Music.h"
 #include "Settings.h"
 
 using namespace CocosDenshion;
@@ -20,25 +21,24 @@ bool StartMenu::init() {
   // if already initialized
   if (!Scene::init())
     return false;
-  Size visibleSize = Director::getInstance()->getVisibleSize();
+  updateBackgroundMusic();
   // create a selective menu:
   // start, rank, setting, about, exit
-  Config::music->playBackgroundMusic("Honor.mp3");
   Vector<MenuItem *> menuItems;
   menuItems.pushBack(createMenuItemLabel("Start", [](Ref *pSender) {
-    makeClickSound();
+    playSoundEffect("click.wav");
     Director::getInstance()->replaceScene(GameMap::createScene());
   }));
   menuItems.pushBack(createMenuItemLabel("Settings", [](Ref *pSender) {
-    makeClickSound();
+    playSoundEffect("click.wav");
     Director::getInstance()->pushScene(Settings::create());
   }));
-  menuItems.pushBack(
-      createMenuItemLabel("About", [](Ref *pSender) { makeClickSound(); }));
-  menuItems.pushBack(
-      createMenuItemLabel("Ranking", [](Ref *pSender) { makeClickSound(); }));
+  menuItems.pushBack(createMenuItemLabel(
+      "About", [](Ref *pSender) { playSoundEffect("click.wav"); }));
+  menuItems.pushBack(createMenuItemLabel(
+      "Ranking", [](Ref *pSender) { playSoundEffect("click.wav"); }));
   menuItems.pushBack(createMenuItemLabel("Exit", [](Ref *pSender) {
-    makeClickSound();
+    playSoundEffect("click.wav");
     Director::getInstance()->end();
   }));
   for (int i = 0; i < menuItems.size(); i++)

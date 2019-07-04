@@ -1,4 +1,5 @@
 #include "App.h"
+#include "Music.h"
 #include "SimpleAudioEngine.h"
 #include "StartMenu.h"
 

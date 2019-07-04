@@ -1,24 +1,11 @@
 #include <iostream>
 
 #include "Config.h"
+#include "Music.h"
 #include "Settings.h"
 
-using namespace CocosDenshion;
 using namespace cocos2d;
 using namespace cocos2d::ui;
-
-/* helper function which toggle checkbox when clicked */
-void toggleCheckBoxState(CheckBox::EventType type) {
-  switch (type) {
-  case CheckBox::EventType::SELECTED:
-    Config::isMusicOn = true;
-    break;
-  case ::CheckBox::EventType::UNSELECTED:
-    Config::isMusicOn = false;
-    break;
-  }
-  Config::toggleMusicState(Config::isMusicOn);
-}
 
 /* create a checkBox for boolean setting */
 void Settings::createSettingCheckBox(
@@ -61,7 +48,7 @@ bool Settings::init() {
   auto backLabel = MenuItemLabel::create(
       Label::createWithTTF("Back", "fonts/Marker Felt.ttf", 15),
       [](Ref *pSender) {
-        makeClickSound();
+        playSoundEffect("click.wav");
         Director::getInstance()->popScene();
       });
   auto backMenu = Menu::create(backLabel, NULL);
@@ -70,26 +57,29 @@ bool Settings::init() {
   // create music & sound checkbox
   createSettingCheckBox("Music", Vec2(100, 120), Config::isMusicOn,
                         [](Ref *pSender, CheckBox::EventType type) {
-                          toggleCheckBoxState(type);
+                          Config::toggleMusicState();
+                          updateBackgroundMusic();
+                          static_cast<CheckBox *>(pSender)->setSelected(
+                              Config::isMusicOn);
                         });
   createSettingCheckBox("Sound", Vec2(100, 160), Config::isSoundOn,
                         [](Ref *pSender, CheckBox::EventType type) {
-                          toggleCheckBoxState(type);
+                          Config::toggleSoundState();
+                          static_cast<CheckBox *>(pSender)->setSelected(
+                              Config::isSoundOn);
                         });
   // create music & sound slider
-  createSlider(
-      Config::musicVolume, Vec2(200, 120),
-      [&](Ref *pSender, Slider::EventType type) {
-        auto item = (Slider *)(pSender);
-        Config::music->setBackgroundMusicVolume(item->getPercent() / 100.0f);
-        Config::setMusicVolume(Config::music->getBackgroundMusicVolume());
-      });
-  createSlider(Config::soundVolume, Vec2(200, 160),
+  createSlider(Config::musicVolume, Vec2(200, 120),
                [&](Ref *pSender, Slider::EventType type) {
-                 auto item = (Slider *)(pSender);
-                 Config::music->setEffectsVolume(item->getPercent() / 100.0f);
+                 Config::music->setBackgroundMusicVolume(
+                     static_cast<Slider *>(pSender)->getPercent() / 100.0f);
                  Config::setMusicVolume(
                      Config::music->getBackgroundMusicVolume());
+               });
+  createSlider(Config::soundVolume, Vec2(200, 160),
+               [&](Ref *pSender, Slider::EventType type) {
+                 Config::setSoundVolume(
+                     static_cast<Slider *>(pSender)->getPercent() / 100.0f);
                });
   return true;
 }

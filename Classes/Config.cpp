@@ -10,25 +10,17 @@ bool Config::isSoundOn = true;
 float Config::musicVolume = .5;
 float Config::soundVolume = .5;
 
-/* helper functions, make a click sound */
-void makeClickSound() {
-  if (Config::isSoundOn) {
-    Config::music->setEffectsVolume(Config::soundVolume);
-    Config::sound->play2d("click.wav", false, Config::soundVolume);
-  }
-}
-
 Config::Config() = default;
 
 /* toggle music state */
-void Config::toggleMusicState(bool isMusicOn_) {
-  isMusicOn = isMusicOn_;
+void Config::toggleMusicState() {
+  isMusicOn = !isMusicOn;
   isMusicOn ? music->resumeBackgroundMusic() : music->pauseBackgroundMusic();
 }
 
 /* toggle sound state */
-void Config::toggleSoundState(bool isSoundOn_) {
-  isSoundOn = isSoundOn_;
+void Config::toggleSoundState() {
+  isSoundOn = !isSoundOn;
   isSoundOn ? sound->resumeAll() : sound->pauseAll();
 }
 

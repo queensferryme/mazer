@@ -25,13 +25,13 @@ public:
   @brief    Toggle music state
   @return   void
   */
-  static void toggleMusicState(bool isMusicOn);
+  static void toggleMusicState();
 
   /**
   @brief    Toggle sound state
   @return   void
   */
-  static void toggleSoundState(bool isSoundOn);
+  static void toggleSoundState();
 
   /**
   @brief    Set music volume
@@ -45,6 +45,3 @@ public:
   */
   static void setSoundVolume(float volume);
 };
-
-/* helper functions, make a click sound */
-void makeClickSound();
