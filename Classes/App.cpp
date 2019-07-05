@@ -44,6 +44,7 @@ bool App::applicationDidFinishLaunching() {
   /* glview->setDesignResolutionSize(designResolutionSize.width,
                                   designResolutionSize.height,
                                   ResolutionPolicy::NO_BORDER);
+                                  
   if (frameSize.height > mediumResolutionSize.height)
     director->setContentScaleFactor(
         MIN(largeResolutionSize.height / designResolutionSize.height,
