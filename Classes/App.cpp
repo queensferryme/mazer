@@ -6,10 +6,10 @@
 using namespace CocosDenshion;
 using namespace cocos2d;
 
-static cocos2d::Size designResolutionSize = cocos2d::Size(480, 320);
-static cocos2d::Size smallResolutionSize = cocos2d::Size(480, 320);
+// static cocos2d::Size designResolutionSize = cocos2d::Size(480, 320);
+// static cocos2d::Size smallResolutionSize = cocos2d::Size(480, 320);
 static cocos2d::Size mediumResolutionSize = cocos2d::Size(960, 720);
-static cocos2d::Size largeResolutionSize = cocos2d::Size(2048, 1536);
+// static cocos2d::Size largeResolutionSize = cocos2d::Size(2048, 1536);
 
 App::App() {}
 
@@ -41,7 +41,7 @@ bool App::applicationDidFinishLaunching() {
   auto frameSize = glview->getFrameSize();
   dynamic_cast<GLViewImpl *>(glview)->setWindowed(frameSize.width,
                                                   frameSize.height);
-  glview->setDesignResolutionSize(designResolutionSize.width,
+  /* glview->setDesignResolutionSize(designResolutionSize.width,
                                   designResolutionSize.height,
                                   ResolutionPolicy::NO_BORDER);
   if (frameSize.height > mediumResolutionSize.height)
@@ -55,7 +55,7 @@ bool App::applicationDidFinishLaunching() {
   else
     director->setContentScaleFactor(
         MIN(smallResolutionSize.height / designResolutionSize.height,
-            smallResolutionSize.width / designResolutionSize.width));
+            smallResolutionSize.width / designResolutionSize.width)); */
   // register start menu scene
   auto scene = StartMenu::createScene();
   director->runWithScene(scene);

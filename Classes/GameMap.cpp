@@ -55,12 +55,12 @@ void GameMap::update(float delta) {
   // TODO: speed up factor varies with difficulty
   Vec2 position = player->getPosition() + (5 * playerDirection);
   // don't update if poisition overflows.
-  // `TMXLayer::getLayerSize` returns 64×64 tiles,
-  // convert `layerSize` into size in pixels.
-  Size layerSize = map->getLayer("Collide")->getLayerSize();
-  layerSize.width = layerSize.width * map->getTileSize().width;
-  layerSize.height = layerSize.height * map->getTileSize().height;
-  if (position.x >= layerSize.width || position.y >= layerSize.height ||
+  // `TMXTiledMap::getMapSize` returns 64×64 tiles,
+  // convert `mapSize` into size in pixels.
+  Size mapSize = map->getMapSize();
+  mapSize.width = mapSize.width * map->getTileSize().width;
+  mapSize.height = mapSize.height * map->getTileSize().height;
+  if (position.x >= mapSize.width || position.y >= mapSize.height ||
       position.x < 0 || position.y < 0)
     return;
   // get tileGID of current player's next position
@@ -68,13 +68,14 @@ void GameMap::update(float delta) {
     float x{position.x / map->getTileSize().width},
         y{(map->getMapSize().height * map->getTileSize().height - position.y) /
           map->getTileSize().height};
-    return map->getLayer("Collide")->getTileGIDAt(Vec2(x, y));
+    return map->getLayer("Background")->getTileGIDAt(Vec2(x, y));
   })(position);
   // don't update if next tile is collidable
   if (!map->getPropertiesForGID(tileGID).isNull()) {
     auto prop = map->getPropertiesForGID(tileGID).asValueMap();
-    if (prop["Collidable"].asString() == "true")
+    if (prop["isCollidable"].asString() == "true") {
       return;
+    }
   }
   player->setPosition(position);
   this->focusSceneOnPlayer();
@@ -82,18 +83,15 @@ void GameMap::update(float delta) {
 
 /* set view point center to current player */
 void GameMap::focusSceneOnPlayer() {
-  // get window size & player position
-  Size winSize = Director::getInstance()->getWinSize();
+  Size visibleSize = Director::getInstance()->getVisibleSize();
   Vec2 position = player->getPosition();
-  // calculate actual position of player
-  float x = MIN(MAX(position.x, winSize.width / 2),
-                (map->getMapSize().width * map->getTileSize().width) -
-                    winSize.width / 2),
-        y = MIN(MAX(position.y, winSize.height / 2),
-                (map->getMapSize().height * map->getTileSize().height) -
-                    winSize.height / 2);
-  Vec2 currentCenter = Vec2(winSize.width / 2, winSize.height / 2),
-       actualPosition = Vec2(x, y),
-       viewPointCenter = currentCenter - actualPosition;
-  this->setPosition(viewPointCenter);
+  int x = MIN(MAX(position.x, visibleSize.width / 2),
+              (map->getMapSize().width * map->getTileSize().width) -
+                  visibleSize.width / 2);
+  int y = MIN(MAX(position.y, visibleSize.height / 2),
+              (map->getMapSize().height * map->getTileSize().height) -
+                  visibleSize.height / 2);
+  Vec2 currentCenter = Point(visibleSize.width / 2, visibleSize.height / 2),
+       targetCenter = Point(x, y);
+  this->setPosition(currentCenter - targetCenter);
 }
