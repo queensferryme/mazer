@@ -186,7 +186,7 @@
 10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10
 </data>
  </layer>
- <objectgroup id="8" name="Player" visible="0">
+ <objectgroup id="8" name="Player">
   <object id="2" name="SpawnPoint" x="1024" y="1024">
    <properties>
     <property name="SpawnPoint" value=""/>

@@ -12,6 +12,7 @@ private:
   Sprite *player;
   cocos2d::TMXTiledMap *map;
   Vec2 playerDirection;
+  Vector<Sprite *> *enemies;
 
 public:
   /**
@@ -44,6 +45,13 @@ public:
   virtual void update(float) override;
 
   /**
+  @brief    Create a repeated action for cruising
+  @param    std::string, a descriptive pattern for cruising
+  @return   Action *, a pointer to the repeated action
+  */
+  Action *createRepeatAction(const std::string &);
+
+  /**
   @brief    Return tile GID for a position in a map layer
   @param    std::string, map layer name
   @param    Vec2, specific position
@@ -57,6 +65,12 @@ public:
   @return   void
   */
   Vec2 getTileCoordForPosition(const Vec2 &);
+
+  /*
+  @brief    Check player's status: normal/danger/dead
+  @return   void
+  */
+  void checkPlayerStatus();
 
   /**
   @brief    Set view point center to current player
