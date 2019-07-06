@@ -10,8 +10,6 @@ using namespace cocos2d;
 class GameMap : public Scene {
 private:
   Sprite *player;
-  // use namespace prefix cocos2d, in order
-  // to avoid conflicts with experimental::TXMTiledMap
   cocos2d::TMXTiledMap *map;
   Vec2 playerDirection;
 
@@ -46,8 +44,39 @@ public:
   virtual void update(float) override;
 
   /**
+  @brief    Return tile GID for a position in a map layer
+  @param    std::string, map layer name
+  @param    Vec2, specific position
+  @return   int, tile GID
+  */
+  int getTileGIDForPositionInLayer(const std::string &, const Vec2 &);
+
+  /**'
+  @brief    Return tile coordinate for a specific position
+  @param    Vec2, a specific position
+  @return   void
+  */
+  Vec2 getTileCoordForPosition(const Vec2 &);
+
+  /**
   @brief    Set view point center to current player
   @return   void
   */
   void focusSceneOnPlayer();
+
+  /**
+  @brief    Callback function when a key is pressed
+  @param    EventKeyboard::Keycode, code of pressed key
+  @param    Event *, a pointer to event object
+  @return   void
+  */
+  void onKeyPressed(EventKeyboard::KeyCode, Event *);
+
+  /**
+  @brief    Callback function when a key is released
+  @param    EventKeyboard::Keycode, code of released key
+  @param    Event *, a pointer to event object
+  @return   void
+  */
+  void onKeyReleased(EventKeyboard::KeyCode, Event *);
 };
