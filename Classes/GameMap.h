@@ -13,6 +13,7 @@ private:
   cocos2d::TMXTiledMap *map;
   Vec2 playerDirection;
   Vector<Sprite *> *enemies;
+  Vector<Sprite *> *followingEnemies;
 
 public:
   /**
@@ -49,7 +50,9 @@ public:
   @param    std::string, a descriptive pattern for cruising
   @return   Action *, a pointer to the repeated action
   */
-  Action *createRepeatAction(const std::string &);
+  Action *createCruiseAction(const std::string &);
+
+  Action *createFollowAction(const Sprite *, const Sprite *);
 
   /**
   @brief    Return tile GID for a position in a map layer
@@ -58,6 +61,14 @@ public:
   @return   int, tile GID
   */
   int getTileGIDForPositionInLayer(const std::string &, const Vec2 &);
+
+  /**
+  @brief    Return a property value of the specific tile
+  @param    int, tileGID
+  @param    std::string, property name
+  @return   property value
+  */
+  Value getPropertyForTileGID(const int, const std::string &);
 
   /**'
   @brief    Return tile coordinate for a specific position
