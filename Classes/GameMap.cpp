@@ -15,6 +15,8 @@ double distance(const Vec2 &p1, const Vec2 &p2) {
 bool GameMap::init() {
   if (!Scene::init())
     return false;
+  this->isPlayerDandgerous = false;
+  this->collectedKeys = this->playerScore = 0;
   // initialize tiled map
   auto map = TMXTiledMap::create("res/map.tmx");
   this->addChild(map);
@@ -77,8 +79,13 @@ void GameMap::update(float delta) {
   this->focusSceneOnPlayer();
   // collect map items if it's collectable
   tileGID = getTileGIDForPositionInLayer("Collect", position);
-  if (getPropertyForTileGID(tileGID, "isCollectable").asString() == "true")
+  if (getPropertyForTileGID(tileGID, "isCollectable").asString() == "true") {
     map->getLayer("Collect")->removeTileAt(getTileCoordForPosition(position));
+    if (getPropertyForTileGID(tileGID, "isKey").asString() == "true")
+      this->collectedKeys++;
+    else
+      this->playerScore += 10;
+  }
 }
 
 /* create a repeated action for cruising */
@@ -105,6 +112,7 @@ Action *GameMap::createCruiseAction(const std::string &pattern) {
   return RepeatForever::create(Sequence::create(actions));
 }
 
+/* create an action for enemy auto following */
 Action *GameMap::createFollowAction(const Sprite *enemy, const Sprite *player) {
   Vec2 enemyPosition{enemy->getPosition()},
       playerPosition{player->getPosition()},
@@ -163,16 +171,20 @@ void GameMap::checkPlayerStatus() {
       exit(0);
     }
   // if player is in danger, prompt & set enemy auto follow
+  bool _isPlayerDandgerous{false};
   for (auto enemy : *enemies)
     if (distance(playerPosition, enemy->getPosition()) <=
         reinterpret_cast<Vec2 *>(enemy->getUserData())->y) {
-      // TODO: display danger image
       // TODO: display danger sound effect
+      _isPlayerDandgerous = true;
+      if (!isPlayerDandgerous)
+        this->playerScore -= 10;
       if (!this->followingEnemies->contains(enemy)) {
         enemy->stopAllActions();
         this->followingEnemies->pushBack(enemy);
       }
     }
+  isPlayerDandgerous = _isPlayerDandgerous;
 }
 
 /* set view point center to current player */

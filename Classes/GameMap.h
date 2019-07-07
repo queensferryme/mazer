@@ -9,8 +9,10 @@ using namespace cocos2d;
 */
 class GameMap : public Scene {
 private:
-  Sprite *player;
+  bool isPlayerDandgerous;
   cocos2d::TMXTiledMap *map;
+  int collectedKeys, playerScore;
+  Sprite *player;
   Vec2 playerDirection;
   Vector<Sprite *> *enemies;
   Vector<Sprite *> *followingEnemies;
@@ -52,6 +54,12 @@ public:
   */
   Action *createCruiseAction(const std::string &);
 
+  /**
+  @brief    Create an action for enemy auto following
+  @param    Sprite *, enemy sprite
+  @param    Sprite *, player sprite
+  @return   Action *, a pointer to the following action
+  */
   Action *createFollowAction(const Sprite *, const Sprite *);
 
   /**

@@ -85,6 +85,7 @@
   <tile id="30">
    <properties>
     <property name="isCollectable" type="bool" value="true"/>
+    <property name="isKey" type="bool" value="false"/>
    </properties>
   </tile>
   <tile id="32">
@@ -100,6 +101,7 @@
   <tile id="37">
    <properties>
     <property name="isCollectable" type="bool" value="true"/>
+    <property name="isKey" type="bool" value="true"/>
    </properties>
   </tile>
   <tile id="40">
