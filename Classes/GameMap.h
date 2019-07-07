@@ -14,8 +14,7 @@ private:
   int collectedKeys, playerScore;
   Sprite *player;
   Vec2 playerDirection;
-  Vector<Sprite *> *enemies;
-  Vector<Sprite *> *followingEnemies;
+  Vector<Sprite *> *enemies, *followingEnemies, *triggers;
 
 public:
   /**
@@ -112,4 +111,11 @@ public:
   @return   void
   */
   void onKeyReleased(EventKeyboard::KeyCode, Event *);
+
+  /**
+  @brief    Create collidable tiles when triggered
+  @param    std::string, information of tiles to be created
+  @return   void
+  */
+  void triggerWithPattern(const std::string &);
 };

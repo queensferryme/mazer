@@ -1,6 +1,6 @@
 #include <cmath>
 #include <iostream>
-#include <queue>
+#include <sstream>
 
 #include "GameMap.h"
 
@@ -45,6 +45,19 @@ bool GameMap::init() {
     this->addChild(enemy);
     this->enemies->pushBack(enemy);
   }
+  // initialize trigger sprites
+  auto triggerData = map->getObjectGroup("Trigger")->getObjects();
+  this->triggers = new Vector<Sprite *>;
+  for (auto triggerDatum : triggerData) {
+    Sprite *trigger = Sprite::create("player.png");
+    ValueMap triggerValueMap = triggerDatum.asValueMap();
+    trigger->setPosition(
+        Vec2(triggerValueMap["x"].asFloat(), triggerValueMap["y"].asFloat()));
+    trigger->setUserData(
+        new std::string(triggerValueMap["Pattern"].asString()));
+    this->addChild(trigger);
+    this->triggers->pushBack(trigger);
+  }
   // initialize key board event listener
   auto listener = EventListenerKeyboard::create();
   listener->onKeyPressed = CC_CALLBACK_2(GameMap::onKeyPressed, this);
@@ -85,6 +98,13 @@ void GameMap::update(float delta) {
       this->collectedKeys++;
     else
       this->playerScore += 10;
+  }
+  // create new collidable tiles if triggered
+  for (auto trigger : *triggers) {
+    if (distance(player->getPosition(), trigger->getPosition()) <=
+        map->getTileSize().width)
+      triggerWithPattern(
+          *reinterpret_cast<std::string *>(trigger->getUserData()));
   }
 }
 
@@ -227,4 +247,17 @@ void GameMap::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *_) {
 /* callback function when a key is released */
 void GameMap::onKeyReleased(EventKeyboard::KeyCode keyCode, Event *_) {
   playerDirection = Vec2(0, 0);
+}
+
+/* create collidable tiles when triggered */
+void GameMap::triggerWithPattern(const std::string &pattern) {
+  std::stringstream stream{pattern};
+  int tileCoordX, tileCoordY, tileGID;
+  while (true) {
+    stream >> tileCoordX >> tileCoordY >> tileGID;
+    if (stream.fail())
+      break;
+    map->getLayer("Background")
+        ->setTileGID(tileGID, Vec2(tileCoordX, tileCoordY));
+  }
 }
