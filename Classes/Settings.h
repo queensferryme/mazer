@@ -41,8 +41,8 @@ public:
   @brief    Create a slider for value control
   @return   void
   */
-  void createSlider(float &storedValue, const Vec2 &v2,
-                    const cocos2d::ui::Slider::ccSliderCallback &callback = {});
+  void createSlider(float , const Vec2 &,
+                    const Slider::ccSliderCallback &);
 
   /**
   @brief    Initialize current cocos2d::Scene object

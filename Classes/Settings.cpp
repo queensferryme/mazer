@@ -1,8 +1,6 @@
-#include <iostream>
-
+#include "Settings.h"
 #include "Config.h"
 #include "Music.h"
-#include "Settings.h"
 
 using namespace cocos2d;
 using namespace cocos2d::ui;
@@ -12,27 +10,29 @@ void Settings::createSettingCheckBox(
     const std::string &text, const Vec2 &position, const bool isSelected,
     const CheckBox::ccCheckBoxCallback &callback) {
   // create checkbox
-  auto checkbox = CheckBox::create(
-      "CheckBox_Press.png", "CheckBox_Press.png", "CheckBoxNode_Disable.png",
-      "CheckBoxNode_Normal.png", "CheckBox_Normal.png");
+  auto checkbox =
+      CheckBox::create("img/CheckBoxPress.png", "img/CheckBoxPress.png",
+                       "img/CheckBoxNodeDisable.png",
+                       "img/CheckBoxNodeNormal.png", "img/CheckBoxNormal.png");
   checkbox->setSelected(isSelected);
   checkbox->addEventListener(callback);
   // create descriptive label
-  auto label = Label::createWithTTF(text, "fonts/Marker Felt.ttf", 15);
+  auto label = Label::createWithTTF(text, "fonts/MarkerFelt.ttf", 25);
   checkbox->setPosition(position);
-  label->setPosition(Vec2(position.x, position.y + 20));
+  label->setPosition(Vec2(position.x, position.y + 50));
   this->addChild(checkbox);
   this->addChild(label);
 }
 
 /* create a slider for value control */
-void Settings::createSlider(float &storedValue, const Vec2 &position,
+void Settings::createSlider(float storedValue, const Vec2 &position,
                             const Slider::ccSliderCallback &callback) {
   auto slider = Slider::create();
-  slider->loadBarTexture("Slider_Back.png");
-  slider->loadSlidBallTextures("SliderNode_Normal.png", "SliderNode_Press.png",
-                               "SliderNode_Disable.png");
-  slider->loadProgressBarTexture("Slider_PressBar.png");
+  slider->loadBarTexture("img/SliderBack.png");
+  slider->loadSlidBallTextures("img/SliderNodeNormal.png",
+                               "img/SliderNodePress.png",
+                               "img/SliderNodeDisable.png");
+  slider->loadProgressBarTexture("img/SliderPressBar.png");
   slider->setMaxPercent(100);
   slider->setPercent(storedValue * 100);
   slider->addEventListener(callback);
@@ -46,40 +46,52 @@ bool Settings::init() {
     return false;
   // create back label
   auto backLabel = MenuItemLabel::create(
-      Label::createWithTTF("Back", "fonts/Marker Felt.ttf", 15),
+      Label::createWithTTF("Back", "fonts/MarkerFelt.ttf", 25),
       [](Ref *pSender) {
         playSoundEffect("click.wav");
         Director::getInstance()->popScene();
       });
   auto backMenu = Menu::create(backLabel, NULL);
-  backMenu->setPosition(Vec2(50, 300));
+  backMenu->setPosition(Vec2(50, 675));
   this->addChild(backMenu);
   // create music & sound checkbox
-  createSettingCheckBox("Music", Vec2(100, 120), Config::isMusicOn,
+  createSettingCheckBox("Music", Vec2(100, 500), Config::isMusicOn,
                         [](Ref *pSender, CheckBox::EventType type) {
                           Config::toggleMusicState();
                           updateBackgroundMusic();
                           static_cast<CheckBox *>(pSender)->setSelected(
                               Config::isMusicOn);
                         });
-  createSettingCheckBox("Sound", Vec2(100, 160), Config::isSoundOn,
+  createSettingCheckBox("Sound", Vec2(100, 400), Config::isSoundOn,
                         [](Ref *pSender, CheckBox::EventType type) {
                           Config::toggleSoundState();
                           static_cast<CheckBox *>(pSender)->setSelected(
                               Config::isSoundOn);
                         });
   // create music & sound slider
-  createSlider(Config::musicVolume, Vec2(200, 120),
+  createSlider(Config::musicVolume, Vec2(250, 500),
                [&](Ref *pSender, Slider::EventType type) {
                  Config::music->setBackgroundMusicVolume(
                      static_cast<Slider *>(pSender)->getPercent() / 100.0f);
                  Config::setMusicVolume(
                      Config::music->getBackgroundMusicVolume());
                });
-  createSlider(Config::soundVolume, Vec2(200, 160),
+  createSlider(Config::soundVolume, Vec2(250, 400),
                [&](Ref *pSender, Slider::EventType type) {
                  Config::setSoundVolume(
                      static_cast<Slider *>(pSender)->getPercent() / 100.0f);
+               });
+  // create enemy speed-up factor slider
+  auto speedLable = MenuItemLabel::create(
+      Label::createWithTTF("Speed", "fonts/MarkerFelt.ttf", 25));
+  speedLable->setPosition(Vec2(100, 300));
+  this->addChild(speedLable);
+  createSlider(0.25 * Config::speedUpFactor - 0.25, Vec2(250, 300),
+               [&](Ref *pSender, Slider::EventType type) {
+                 Config::speedUpFactor =
+                     ((static_cast<Slider *>(pSender)->getPercent() / 100.0f) +
+                      0.25) *
+                     4;
                });
   return true;
 }

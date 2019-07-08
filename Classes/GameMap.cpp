@@ -1,8 +1,9 @@
 #include <cmath>
-#include <iostream>
 #include <sstream>
 
+#include "Config.h"
 #include "GameMap.h"
+#include "Music.h"
 
 using namespace cocos2d;
 
@@ -15,15 +16,16 @@ double distance(const Vec2 &p1, const Vec2 &p2) {
 bool GameMap::init() {
   if (!Scene::init())
     return false;
+  playBackgroundMusic("audio/battle.mp3");
   this->isPlayerDandgerous = false;
   this->collectedKeys = this->playerScore = 0;
   // initialize tiled map
-  auto map = TMXTiledMap::create("res/map.tmx");
+  auto map = cocos2d::TMXTiledMap::create("res/map.tmx");
   this->addChild(map);
   this->map = map;
   // initialize player sprite
   auto spawnPoint = map->getObjectGroup("Player")->getObject("SpawnPoint");
-  auto player = Sprite::create("player.png");
+  auto player = Sprite::create("img/player.png");
   player->setPosition(
       Vec2(spawnPoint["x"].asFloat(), spawnPoint["y"].asFloat()));
   this->addChild(player);
@@ -34,7 +36,7 @@ bool GameMap::init() {
   this->enemies = new Vector<Sprite *>;
   this->followingEnemies = new Vector<Sprite *>;
   for (auto enemyDatum : enemyData) {
-    Sprite *enemy = Sprite::create("player.png");
+    Sprite *enemy = Sprite::create("img/player.png");
     ValueMap enemyValueMap = enemyDatum.asValueMap();
     enemy->setPosition(
         Vec2(enemyValueMap["x"].asFloat(), enemyValueMap["y"].asFloat()));
@@ -49,7 +51,7 @@ bool GameMap::init() {
   auto triggerData = map->getObjectGroup("Trigger")->getObjects();
   this->triggers = new Vector<Sprite *>;
   for (auto triggerDatum : triggerData) {
-    Sprite *trigger = Sprite::create("player.png");
+    Sprite *trigger = Sprite::create("img/player.png");
     ValueMap triggerValueMap = triggerDatum.asValueMap();
     trigger->setPosition(
         Vec2(triggerValueMap["x"].asFloat(), triggerValueMap["y"].asFloat()));
@@ -94,18 +96,22 @@ void GameMap::update(float delta) {
   tileGID = getTileGIDForPositionInLayer("Collect", position);
   if (getPropertyForTileGID(tileGID, "isCollectable").asString() == "true") {
     map->getLayer("Collect")->removeTileAt(getTileCoordForPosition(position));
+    playSoundEffect("audio/collectItem.mp3");
     if (getPropertyForTileGID(tileGID, "isKey").asString() == "true")
       this->collectedKeys++;
     else
       this->playerScore += 10;
   }
   // create new collidable tiles if triggered
-  for (auto trigger : *triggers) {
+  for (auto trigger : *triggers)
     if (distance(player->getPosition(), trigger->getPosition()) <=
-        map->getTileSize().width)
+        map->getTileSize().width) {
+      playSoundEffect("audio/trigger.mp3");
       triggerWithPattern(
           *reinterpret_cast<std::string *>(trigger->getUserData()));
-  }
+      triggers->erase(triggers->find(trigger));
+      this->removeChild(trigger);
+    }
 }
 
 /* create a repeated action for cruising */
@@ -125,8 +131,9 @@ Action *GameMap::createCruiseAction(const std::string &pattern) {
     // determine enemy move length
     for (int j = 0, moveStep = pattern[i + 1] - '0'; j < moveStep; j++) {
       actions.pushBack(
-          MoveBy::create(.5, map->getTileSize().width * enemyDirection));
-      actions.pushBack(DelayTime::create(.25));
+          MoveBy::create(.5 / Config::speedUpFactor,
+                         map->getTileSize().width * enemyDirection));
+      actions.pushBack(DelayTime::create(.25 / Config::speedUpFactor));
     }
   }
   return RepeatForever::create(Sequence::create(actions));
@@ -153,8 +160,9 @@ Action *GameMap::createFollowAction(const Sprite *enemy, const Sprite *player) {
       minimumValue = distanceValue;
     }
   }
-  return Sequence::create(MoveBy::create(.5, vectors[minimumIndex]),
-                          DelayTime::create(.25), nullptr);
+  return Sequence::create(
+      MoveBy::create(.5 / Config::speedUpFactor, vectors[minimumIndex]),
+      DelayTime::create(.25 / Config::speedUpFactor), nullptr);
 }
 
 /* return tile GID for a position in a map layer */
@@ -195,10 +203,11 @@ void GameMap::checkPlayerStatus() {
   for (auto enemy : *enemies)
     if (distance(playerPosition, enemy->getPosition()) <=
         reinterpret_cast<Vec2 *>(enemy->getUserData())->y) {
-      // TODO: display danger sound effect
       _isPlayerDandgerous = true;
-      if (!isPlayerDandgerous)
+      if (!isPlayerDandgerous) {
+        playSoundEffect("audio/danger.mp3");
         this->playerScore -= 10;
+      }
       if (!this->followingEnemies->contains(enemy)) {
         enemy->stopAllActions();
         this->followingEnemies->pushBack(enemy);

@@ -3,7 +3,7 @@
 #include <string>
 
 /* play background music when initialized */
-void playBackgroundMusic();
+void playBackgroundMusic(const std::string &);
 
 /* helper functions, make a click sound */
 void playSoundEffect(const std::string &);

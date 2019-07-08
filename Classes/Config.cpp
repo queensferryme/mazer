@@ -9,6 +9,7 @@ bool Config::isMusicOn = true;
 bool Config::isSoundOn = true;
 float Config::musicVolume = .5;
 float Config::soundVolume = .5;
+float Config::speedUpFactor = 1;
 
 Config::Config() = default;
 

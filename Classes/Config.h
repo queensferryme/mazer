@@ -18,6 +18,7 @@ public:
   static bool isSoundOn;
   static float musicVolume;
   static float soundVolume;
+  static float speedUpFactor;
 
   Config();
 
