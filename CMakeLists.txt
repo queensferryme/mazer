@@ -48,6 +48,7 @@ endif()
 
 # add cross-platforms source files and header files 
 list(APPEND GAME_SOURCE
+     Classes/About.cpp
      Classes/App.cpp
      Classes/Config.cpp
      Classes/GameMap.cpp
@@ -56,6 +57,7 @@ list(APPEND GAME_SOURCE
      Classes/Settings.cpp
      )
 list(APPEND GAME_HEADER
+     Classes/About.h
      Classes/App.h
      Classes/Config.h
      Classes/GameMap.h

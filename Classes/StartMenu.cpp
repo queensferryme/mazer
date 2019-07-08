@@ -1,4 +1,5 @@
 #include "StartMenu.h"
+#include "About.h"
 #include "Config.h"
 #include "GameMap.h"
 #include "Music.h"
@@ -32,8 +33,10 @@ bool StartMenu::init() {
     playSoundEffect("click.wav");
     Director::getInstance()->pushScene(Settings::create());
   }));
-  menuItems.pushBack(createMenuItemLabel(
-      "About", [](Ref *pSender) { playSoundEffect("click.wav"); }));
+  menuItems.pushBack(createMenuItemLabel("About", [](Ref *pSender) {
+    playSoundEffect("click.wav");
+    Director::getInstance()->pushScene(About::create());
+  }));
   menuItems.pushBack(createMenuItemLabel(
       "Ranking", [](Ref *pSender) { playSoundEffect("click.wav"); }));
   menuItems.pushBack(createMenuItemLabel("Exit", [](Ref *pSender) {
