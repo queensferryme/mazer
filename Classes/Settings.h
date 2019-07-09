@@ -33,16 +33,16 @@ public:
    @return  void
    */
   void createSettingCheckBox(
-      const std::string &text, const Vec2 &v2, bool isSelected,
-      const CheckBox::ccCheckBoxCallback &callback =
-          [](Ref *pSender, CheckBox::EventType type) {});
+      const std::string &, const Vec2 &v2, bool,
+      const CheckBox::ccCheckBoxCallback & = [](Ref *pSender,
+                                                CheckBox::EventType type) {},
+      const int = -1);
 
   /**
   @brief    Create a slider for value control
   @return   void
   */
-  void createSlider(float , const Vec2 &,
-                    const Slider::ccSliderCallback &);
+  void createSlider(float, const Vec2 &, const Slider::ccSliderCallback &);
 
   /**
   @brief    Initialize current cocos2d::Scene object

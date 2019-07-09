@@ -7,6 +7,7 @@ using namespace cocos2d;
 SimpleAudioEngine *Config::music = SimpleAudioEngine::getInstance();
 bool Config::isMusicOn = true;
 bool Config::isSoundOn = true;
+int Config::mapSize = 16;
 float Config::musicVolume = .5;
 float Config::soundVolume = .5;
 float Config::speedUpFactor = 1;

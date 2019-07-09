@@ -16,6 +16,7 @@ public:
   static SimpleAudioEngine *music;
   static bool isMusicOn;
   static bool isSoundOn;
+  static int mapSize;
   static float musicVolume;
   static float soundVolume;
   static float speedUpFactor;

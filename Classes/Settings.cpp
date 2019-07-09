@@ -9,7 +9,7 @@ using namespace cocos2d::ui;
 /* create a checkBox for boolean setting */
 void Settings::createSettingCheckBox(
     const std::string &text, const Vec2 &position, const bool isSelected,
-    const CheckBox::ccCheckBoxCallback &callback) {
+    const CheckBox::ccCheckBoxCallback &callback, const int tag) {
   // create checkbox
   auto checkbox =
       CheckBox::create("img/CheckBoxPress.png", "img/CheckBoxPress.png",
@@ -21,7 +21,7 @@ void Settings::createSettingCheckBox(
   auto label = Label::createWithTTF(text, "fonts/MarkerFelt.ttf", 25);
   checkbox->setPosition(position);
   label->setPosition(Vec2(position.x, position.y + 50));
-  this->addChild(checkbox);
+  this->addChild(checkbox, 0, tag);
   this->addChild(label);
 }
 
@@ -83,16 +83,81 @@ bool Settings::init() {
                      static_cast<Slider *>(pSender)->getPercent() / 100.0f);
                });
   // create enemy speed-up factor slider
-  auto speedLable = MenuItemLabel::create(
+  auto speedLabel = MenuItemLabel::create(
       Label::createWithTTF("Speed", "fonts/MarkerFelt.ttf", 25));
-  speedLable->setPosition(Vec2(200, 330));
-  this->addChild(speedLable);
-  createSlider(0.25 * Config::speedUpFactor - 0.25, Vec2(350, 300),
+  speedLabel->setPosition(Vec2(200, 330));
+  this->addChild(speedLabel);
+  createSlider(0.25 * Config::speedUpFactor - 0.25, Vec2(350, 330),
                [&](Ref *pSender, Slider::EventType type) {
                  Config::speedUpFactor =
                      ((static_cast<Slider *>(pSender)->getPercent() / 100.0f) +
                       0.25) *
                      4;
                });
+  // create map size select
+  auto mapSizeLabel = MenuItemLabel::create(
+      Label::createWithTTF("Map Size", "fonts/MarkerFelt.ttf", 23));
+  mapSizeLabel->setPosition(Vec2(200, 200));
+  this->addChild(mapSizeLabel);
+  createSettingCheckBox(
+      "16*16", Vec2(300, 200), Config::mapSize == 16,
+      [&](Ref *pSender, CheckBox::EventType type) {
+        Config::mapSize = 16;
+        for (auto child : getChildren())
+          if (child->getTag() == 9)
+            ((CheckBox *)child)->setSelected(false);
+        ((CheckBox *)pSender)->setSelected(true);
+      },
+      9);
+  createSettingCheckBox(
+      "24*24", Vec2(400, 200), Config::mapSize == 24,
+      [&](Ref *pSender, CheckBox::EventType type) {
+        Config::mapSize = 24;
+        for (auto child : getChildren())
+          if (child->getTag() == 9)
+            ((CheckBox *)child)->setSelected(false);
+        ((CheckBox *)pSender)->setSelected(true);
+      },
+      9);
+  createSettingCheckBox(
+      "32*32", Vec2(500, 200), Config::mapSize == 32,
+      [&](Ref *pSender, CheckBox::EventType type) {
+        Config::mapSize = 32;
+        for (auto child : getChildren())
+          if (child->getTag() == 9)
+            ((CheckBox *)child)->setSelected(false);
+        ((CheckBox *)pSender)->setSelected(true);
+      },
+      9);
+  createSettingCheckBox(
+      "48*48", Vec2(600, 200), Config::mapSize == 48,
+      [&](Ref *pSender, CheckBox::EventType type) {
+        Config::mapSize = 48;
+        for (auto child : getChildren())
+          if (child->getTag() == 9)
+            ((CheckBox *)child)->setSelected(false);
+        ((CheckBox *)pSender)->setSelected(true);
+      },
+      9);
+  createSettingCheckBox(
+      "64*64", Vec2(700, 200), Config::mapSize == 64,
+      [&](Ref *pSender, CheckBox::EventType type) {
+        Config::mapSize = 64;
+        for (auto child : getChildren())
+          if (child->getTag() == 9)
+            ((CheckBox *)child)->setSelected(false);
+        ((CheckBox *)pSender)->setSelected(true);
+      },
+      9);
+  createSettingCheckBox(
+      "100*100", Vec2(800, 200), Config::mapSize == 100,
+      [&](Ref *pSender, CheckBox::EventType type) {
+        Config::mapSize = 100;
+        for (auto child : getChildren())
+          if (child->getTag() == 9)
+            ((CheckBox *)child)->setSelected(false);
+        ((CheckBox *)pSender)->setSelected(true);
+      },
+      9);
   return true;
 }

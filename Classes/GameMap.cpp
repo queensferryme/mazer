@@ -148,7 +148,9 @@ bool GameMap::init() {
   this->isPlayerDandgerous = false;
   this->collectedKeys = this->playerScore = 0;
   // initialize tiled map
-  auto map = cocos2d::TMXTiledMap::create("map/map.tmx");
+  char mapFileName[20];
+  sprintf(mapFileName, "map/map%d.tmx", Config::mapSize);
+  auto map = cocos2d::TMXTiledMap::create(mapFileName);
   this->addChild(map);
   this->map = map;
   // initialize player sprite
