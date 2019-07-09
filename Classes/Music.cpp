@@ -6,8 +6,9 @@
 /* play background music when initialized */
 void playBackgroundMusic(const std::string &file) {
   Config::music->stopBackgroundMusic();
-  if (Config::isMusicOn)
+  if (Config::isMusicOn) {
     Config::music->playBackgroundMusic(file.c_str(), true);
+  }
 }
 
 /* helper functions, make a click sound */

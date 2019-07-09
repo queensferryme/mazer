@@ -1,4 +1,5 @@
 #include "About.h"
+#include "Music.h"
 
 using namespace cocos2d;
 

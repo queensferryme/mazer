@@ -9,7 +9,8 @@ using namespace cocos2d;
 */
 class GameMap : public Scene {
 private:
-  bool isPlayerDandgerous;
+  Action *playerAnimation, *enemyAnimation;
+  bool isPlayerDandgerous, isPlayerNearSuccess;
   cocos2d::TMXTiledMap *map;
   int collectedKeys, playerScore;
   Sprite *player;
@@ -51,7 +52,7 @@ public:
   @param    std::string, a descriptive pattern for cruising
   @return   Action *, a pointer to the repeated action
   */
-  Action *createCruiseAction(const std::string &);
+  Action *createCruiseAction(Sprite *, const std::string &);
 
   /**
   @brief    Create an action for enemy auto following
@@ -59,7 +60,14 @@ public:
   @param    Sprite *, player sprite
   @return   Action *, a pointer to the following action
   */
-  Action *createFollowAction(const Sprite *, const Sprite *);
+  Action *createFollowAction(Sprite *, Sprite *);
+
+  /**
+  @brief    Load an animation for player/enemy movement
+  @param    char *, name of animation to be loaded
+  @return   void
+  */
+  Action *loadSpriteAnimation(const char *);
 
   /**
   @brief    Return tile GID for a position in a map layer
@@ -97,6 +105,12 @@ public:
   void focusSceneOnPlayer();
 
   /**
+  @brief    Load sprite frame animations
+  @return   void
+  */
+  void loadSpriteAnimations();
+
+  /**
   @brief    Callback function when a key is pressed
   @param    EventKeyboard::Keycode, code of pressed key
   @param    Event *, a pointer to event object
@@ -111,6 +125,25 @@ public:
   @return   void
   */
   void onKeyReleased(EventKeyboard::KeyCode, Event *);
+
+  /**
+  @brief    Handler function which is invoked when player dies
+  @return   void
+  */
+  void onPlayerDead();
+
+  /**
+  @brief    Handler function which is invoked when player
+            collected all four key items
+  @return   void
+  */
+  void onPlayerNearSuccess();
+
+  /**
+  @brief    Handler function which is invoked when player succeed
+  @return   void
+  */
+  void onPlayerSuccess();
 
   /**
   @brief    Create collidable tiles when triggered

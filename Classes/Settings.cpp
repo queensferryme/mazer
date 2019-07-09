@@ -44,6 +44,14 @@ void Settings::createSlider(float storedValue, const Vec2 &position,
 bool Settings::init() {
   if (!Scene::init())
     return false;
+  // create background image
+  Size visibleSize = Director::getInstance()->getVisibleSize();
+  Vec2 origin = Director::getInstance()->getVisibleOrigin();
+  auto sprite = Sprite::create("img/start.jpg");
+  sprite->setScale(2);
+  sprite->setPosition(Vec2(visibleSize.width / 2 + origin.x + 10,
+                           visibleSize.height / 2 + origin.y));
+  this->addChild(sprite, 0);
   // create back label
   auto backLabel = MenuItemLabel::create(
       Label::createWithTTF("Back", "fonts/MarkerFelt.ttf", 25),

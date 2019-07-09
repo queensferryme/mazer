@@ -22,6 +22,14 @@ bool StartMenu::init() {
     return false;
   playBackgroundMusic("audio/bgm.mp3");
   updateBackgroundMusic();
+  // create background image
+  Size visibleSize = Director::getInstance()->getVisibleSize();
+  Vec2 origin = Director::getInstance()->getVisibleOrigin();
+  auto sprite = Sprite::create("img/start.jpg");
+  sprite->setScale(2);
+  sprite->setPosition(Vec2(visibleSize.width / 2 + origin.x + 10,
+                           visibleSize.height / 2 + origin.y));
+  this->addChild(sprite, 0);
   // create a selective menu:
   // start, rank, setting, about, exit
   Vector<MenuItem *> menuItems;
@@ -44,7 +52,7 @@ bool StartMenu::init() {
     Director::getInstance()->end();
   }));
   for (int i = 0; i < menuItems.size(); i++)
-    menuItems.at(i)->setPosition(Vec2(i * 170, 30));
+    menuItems.at(i)->setPosition(Vec2(i * 180, 50));
   auto menu = Menu::createWithArray(menuItems);
   menu->setPosition(Vec2(110, 50));
   this->addChild(menu, 1);

@@ -7,20 +7,22 @@ using namespace cocos2d;
 /**
 @brief   About scene
 */
-class About : public cocos2d::Scene {
+class GameResult : public Scene {
 public:
   /**
   @brief    Create scene with `static create()`
+  @param    bool, whether the player succeeded or failed in the game
+  @param    int, player's score
   @return   pointer to a cocos2d::Scene object
   */
-  static cocos2d::Scene *createScene() { return About::create(); }
+  static Scene *createScene(bool, int);
 
   /**
   @brief    Implementation of `static create()` function,
             used in createScene()
   @return   pointer to an object of current class
   */
-  CREATE_FUNC(About);
+  CREATE_FUNC(GameResult);
 
   /**
   @brief    Initialize current cocos2d::Scene object

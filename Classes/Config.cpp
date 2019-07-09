@@ -20,10 +20,7 @@ void Config::toggleMusicState() {
 }
 
 /* toggle sound state */
-void Config::toggleSoundState() {
-  isSoundOn = !isSoundOn;
-  isSoundOn ? sound->resumeAll() : sound->pauseAll();
-}
+void Config::toggleSoundState() { isSoundOn = !isSoundOn; }
 
 /* set music volume */
 void Config::setMusicVolume(float volume) { musicVolume = volume; }
