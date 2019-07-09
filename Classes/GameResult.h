@@ -1,14 +1,21 @@
 #pragma once
 
+#include <string>
+
 #include "cocos2d.h"
+#include "ui/CocosGUI.h"
 
 using namespace cocos2d;
+using namespace cocos2d::ui;
 
 /**
 @brief   About scene
 */
 class GameResult : public Scene {
 public:
+  std::string playerScore;
+  TextField *textField;
+
   /**
   @brief    Create scene with `static create()`
   @param    bool, whether the player succeeded or failed in the game

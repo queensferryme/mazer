@@ -19,6 +19,7 @@ public:
   static float musicVolume;
   static float soundVolume;
   static float speedUpFactor;
+  static std::string dbFilePath;
 
   Config();
 

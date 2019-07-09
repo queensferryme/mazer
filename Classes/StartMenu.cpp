@@ -3,6 +3,7 @@
 #include "Config.h"
 #include "GameMap.h"
 #include "Music.h"
+#include "Ranking.h"
 #include "Settings.h"
 
 using namespace cocos2d;
@@ -39,14 +40,16 @@ bool StartMenu::init() {
   }));
   menuItems.pushBack(createMenuItemLabel("Settings", [](Ref *pSender) {
     playSoundEffect("click.wav");
-    Director::getInstance()->pushScene(Settings::create());
+    Director::getInstance()->pushScene(Settings::createScene());
   }));
   menuItems.pushBack(createMenuItemLabel("About", [](Ref *pSender) {
     playSoundEffect("click.wav");
-    Director::getInstance()->pushScene(About::create());
+    Director::getInstance()->pushScene(About::createScene());
   }));
-  menuItems.pushBack(createMenuItemLabel(
-      "Ranking", [](Ref *pSender) { playSoundEffect("click.wav"); }));
+  menuItems.pushBack(createMenuItemLabel("Ranking", [](Ref *pSender) {
+    playSoundEffect("click.wav");
+    Director::getInstance()->pushScene(Ranking::createScene());
+  }));
   menuItems.pushBack(createMenuItemLabel("Exit", [](Ref *pSender) {
     playSoundEffect("click.wav");
     Director::getInstance()->end();

@@ -15,7 +15,7 @@ bool About::init() {
         playSoundEffect("click.wav");
         Director::getInstance()->popScene();
       });
-  backItem->setPosition(Vec2(60, 600));
+  backItem->setPosition(Vec2(60, 660));
   auto menu = Menu::create(backItem, NULL);
   menu->setPosition(Vec2::ZERO);
   this->addChild(menu, 1);

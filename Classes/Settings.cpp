@@ -1,6 +1,7 @@
 #include "Settings.h"
 #include "Config.h"
 #include "Music.h"
+#include "StartMenu.h"
 
 using namespace cocos2d;
 using namespace cocos2d::ui;
@@ -44,47 +45,39 @@ void Settings::createSlider(float storedValue, const Vec2 &position,
 bool Settings::init() {
   if (!Scene::init())
     return false;
-  // create background image
-  Size visibleSize = Director::getInstance()->getVisibleSize();
-  Vec2 origin = Director::getInstance()->getVisibleOrigin();
-  auto sprite = Sprite::create("img/start.jpg");
-  sprite->setScale(2);
-  sprite->setPosition(Vec2(visibleSize.width / 2 + origin.x + 10,
-                           visibleSize.height / 2 + origin.y));
-  this->addChild(sprite, 0);
   // create back label
-  auto backLabel = MenuItemLabel::create(
-      Label::createWithTTF("Back", "fonts/MarkerFelt.ttf", 25),
-      [](Ref *pSender) {
+  auto backItem = MenuItemImage::create(
+      "img/BackNormal.png", "img/BackClicked.png", [](Ref *pSpender) {
         playSoundEffect("click.wav");
-        Director::getInstance()->popScene();
+        Director::getInstance()->replaceScene(StartMenu::createScene());
       });
-  auto backMenu = Menu::create(backLabel, NULL);
-  backMenu->setPosition(Vec2(50, 675));
-  this->addChild(backMenu);
+  backItem->setPosition(Vec2(60, 660));
+  auto menu = Menu::create(backItem, NULL);
+  menu->setPosition(Vec2::ZERO);
+  this->addChild(menu, 1);
   // create music & sound checkbox
-  createSettingCheckBox("Music", Vec2(100, 500), Config::isMusicOn,
+  createSettingCheckBox("Music", Vec2(200, 500), Config::isMusicOn,
                         [](Ref *pSender, CheckBox::EventType type) {
                           Config::toggleMusicState();
                           updateBackgroundMusic();
                           static_cast<CheckBox *>(pSender)->setSelected(
                               Config::isMusicOn);
                         });
-  createSettingCheckBox("Sound", Vec2(100, 400), Config::isSoundOn,
+  createSettingCheckBox("Sound", Vec2(200, 400), Config::isSoundOn,
                         [](Ref *pSender, CheckBox::EventType type) {
                           Config::toggleSoundState();
                           static_cast<CheckBox *>(pSender)->setSelected(
                               Config::isSoundOn);
                         });
   // create music & sound slider
-  createSlider(Config::musicVolume, Vec2(250, 500),
+  createSlider(Config::musicVolume, Vec2(350, 500),
                [&](Ref *pSender, Slider::EventType type) {
                  Config::music->setBackgroundMusicVolume(
                      static_cast<Slider *>(pSender)->getPercent() / 100.0f);
                  Config::setMusicVolume(
                      Config::music->getBackgroundMusicVolume());
                });
-  createSlider(Config::soundVolume, Vec2(250, 400),
+  createSlider(Config::soundVolume, Vec2(350, 400),
                [&](Ref *pSender, Slider::EventType type) {
                  Config::setSoundVolume(
                      static_cast<Slider *>(pSender)->getPercent() / 100.0f);
@@ -92,9 +85,9 @@ bool Settings::init() {
   // create enemy speed-up factor slider
   auto speedLable = MenuItemLabel::create(
       Label::createWithTTF("Speed", "fonts/MarkerFelt.ttf", 25));
-  speedLable->setPosition(Vec2(100, 300));
+  speedLable->setPosition(Vec2(200, 330));
   this->addChild(speedLable);
-  createSlider(0.25 * Config::speedUpFactor - 0.25, Vec2(250, 300),
+  createSlider(0.25 * Config::speedUpFactor - 0.25, Vec2(350, 300),
                [&](Ref *pSender, Slider::EventType type) {
                  Config::speedUpFactor =
                      ((static_cast<Slider *>(pSender)->getPercent() / 100.0f) +

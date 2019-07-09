@@ -54,8 +54,10 @@ list(APPEND GAME_SOURCE
      Classes/GameMap.cpp
      Classes/GameResult.cpp
      Classes/Music.cpp
+     Classes/Ranking.cpp
      Classes/StartMenu.cpp
      Classes/Settings.cpp
+     Classes/sqlite3.c
      )
 list(APPEND GAME_HEADER
      Classes/About.h
@@ -64,8 +66,10 @@ list(APPEND GAME_HEADER
      Classes/GameMap.h
      Classes/GameResult.h
      Classes/Music.h
+     Classes/Ranking.h
      Classes/Settings.h
      Classes/StartMenu.h
+     Classes/sqlite3.h
      )
 
 if(ANDROID)
