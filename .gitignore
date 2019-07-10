@@ -1,4 +1,7 @@
 # Linux platform
 bin/
+Debug.win32/
+Release.win32/
 linux-build/
+.vs/
 .vscode/

@@ -46,8 +46,8 @@ bool GameResult::init() {
     return false;
   // add back label
   auto backItem = MenuItemImage::create(
-      "img/BackNormal.png", "img/BackClicked.png", [&](Ref *pSpender) {
-        playSoundEffect("click.wav");
+      "img/BackNormal.png", "img/BackClicked.png", [=](Ref *pSpender) {
+        playSoundEffect("audio/click.wav");
         Ranking::db = Ranking::openDataBase(Config::dbFilePath, Ranking::db);
         Ranking::insertData(textField->getString(), playerScore, Ranking::db);
         sqlite3_close(Ranking::db);

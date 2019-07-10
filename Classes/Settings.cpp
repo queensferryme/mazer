@@ -48,8 +48,8 @@ bool Settings::init() {
   // create back label
   auto backItem = MenuItemImage::create(
       "img/BackNormal.png", "img/BackClicked.png", [](Ref *pSpender) {
-        playSoundEffect("click.wav");
-        Director::getInstance()->replaceScene(StartMenu::createScene());
+        playSoundEffect("audio/click.wav");
+        Director::getInstance()->popScene();
       });
   backItem->setPosition(Vec2(60, 660));
   auto menu = Menu::create(backItem, NULL);

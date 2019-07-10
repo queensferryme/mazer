@@ -35,23 +35,23 @@ bool StartMenu::init() {
   // start, rank, setting, about, exit
   Vector<MenuItem *> menuItems;
   menuItems.pushBack(createMenuItemLabel("Start", [](Ref *pSender) {
-    playSoundEffect("click.wav");
+    playSoundEffect("audio/click.wav");
     Director::getInstance()->replaceScene(GameMap::createScene());
   }));
   menuItems.pushBack(createMenuItemLabel("Settings", [](Ref *pSender) {
-    playSoundEffect("click.wav");
+    playSoundEffect("audio/click.wav");
     Director::getInstance()->pushScene(Settings::createScene());
   }));
   menuItems.pushBack(createMenuItemLabel("About", [](Ref *pSender) {
-    playSoundEffect("click.wav");
+    playSoundEffect("audio/click.wav");
     Director::getInstance()->pushScene(About::createScene());
   }));
   menuItems.pushBack(createMenuItemLabel("Ranking", [](Ref *pSender) {
-    playSoundEffect("click.wav");
+    playSoundEffect("audio/click.wav");
     Director::getInstance()->pushScene(Ranking::createScene());
   }));
   menuItems.pushBack(createMenuItemLabel("Exit", [](Ref *pSender) {
-    playSoundEffect("click.wav");
+    playSoundEffect("audio/click.wav");
     Director::getInstance()->end();
   }));
   for (int i = 0; i < menuItems.size(); i++)

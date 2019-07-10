@@ -12,7 +12,7 @@ bool About::init() {
   // create back label
   auto backItem =
       MenuItemImage::create("img/BackNormal.png", "img/BackClicked.png", [](Ref *pSpender) {
-        playSoundEffect("click.wav");
+        playSoundEffect("audio/click.wav");
         Director::getInstance()->popScene();
       });
   backItem->setPosition(Vec2(60, 660));

@@ -23,7 +23,7 @@
  ****************************************************************************/
 
 #include "main.h"
-#include "AppDelegate.h"
+#include "App.h"
 #include "cocos2d.h"
 
 USING_NS_CC;
@@ -37,6 +37,6 @@ int WINAPI _tWinMain(HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(lpCmdLine);
 
     // create the application instance
-    AppDelegate app;
+    App app;
     return Application::getInstance()->run();
 }
