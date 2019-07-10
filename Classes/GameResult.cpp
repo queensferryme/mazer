@@ -3,8 +3,8 @@
 #include "Music.h"
 #include "Ranking.h"
 #include "StartMenu.h"
-#include "ui/CocosGUI.h"
 #include "sqlite3.h"
+#include "ui/CocosGUI.h"
 
 /* create scene with `static create()` */
 Scene *GameResult::createScene(bool isSuccess, int playerScore) {
@@ -46,11 +46,13 @@ bool GameResult::init() {
     return false;
   // add back label
   auto backItem = MenuItemImage::create(
-      "img/BackNormal.png", "img/BackClicked.png", [=](Ref *pSpender) {
+      "img/BackNormal.png", "img/BackClicked.png", [&](Ref *pSpender) {
         playSoundEffect("audio/click.wav");
-        Ranking::db = Ranking::openDataBase(Config::dbFilePath, Ranking::db);
-        Ranking::insertData(textField->getString(), playerScore, Ranking::db);
-        sqlite3_close(Ranking::db);
+        if (textField != nullptr) {
+          Ranking::db = Ranking::openDataBase(Config::dbFilePath, Ranking::db);
+          Ranking::insertData(textField->getString(), playerScore, Ranking::db);
+          sqlite3_close(Ranking::db);
+        }
         Director::getInstance()->replaceScene(StartMenu::createScene());
       });
   backItem->setPosition(Vec2(60, 660));

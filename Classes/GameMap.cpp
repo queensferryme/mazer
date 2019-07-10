@@ -272,6 +272,8 @@ void GameMap::onPlayerDead() {
 void GameMap::onPlayerNearSuccess() {
   playBackgroundMusic("audio/endgame.mp3");
   isPlayerNearSuccess = true;
+  for (auto enemy : *enemies)
+    enemy->setScale(.3, .3);
 }
 
 /* handler function which is invoked when player succeed */

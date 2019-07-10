@@ -14,7 +14,7 @@ using namespace cocos2d::ui;
 class GameResult : public Scene {
 public:
   std::string playerScore;
-  TextField *textField;
+  TextField *textField{nullptr};
 
   /**
   @brief    Create scene with `static create()`
